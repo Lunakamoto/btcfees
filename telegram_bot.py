@@ -14,6 +14,9 @@ bot_username = 'YOUR_TELEGRAM_BOT_USERNAME'
 # Replace 'YOUR_TELEGRAM_CHAT_ID' with your actual Telegram chat ID
 chat_id = 'YOUR_TELEGRAM_CHAT_ID'
 
+# Get the mempool threshold from the user
+threshold = float(input("Enter the mempool threshold (in sats/vbyte): "))
+
 # Variable to store the timestamp of the last notification
 last_notification_time = None
 
@@ -35,7 +38,7 @@ async def send_telegram_alert(fee):
     current_time = datetime.now()
     
     if last_notification_time is None or (current_time - last_notification_time) >= timedelta(hours=6):
-        message = f"Alert: The 1-hour Bitcoin fee is now {fee} sats/vbyte, which is below the threshold of 30 sats/vbyte."
+        message = f"Alert: The 1-hour Bitcoin fee is now {fee} sats/vbyte, which is below the threshold of {threshold} sats/vbyte."
         bot = ApplicationBuilder().token(bot_token).build()
         
         max_retries = 3
@@ -63,10 +66,10 @@ async def monitor_bitcoin_fees():
         if hourFee is not None:
             print(f"Current 1-hour Bitcoin fee: {hourFee} sats/vbyte")
             
-            if hourFee < 30:
+            if hourFee < threshold:
                 await send_telegram_alert(hourFee)
         
-        await asyncio.sleep(60)  # Wait for 60 seconds before checking again
+        await asyncio.sleep(600)  # Wait for 600 seconds(10mins) before checking again
 
 # Run the program
 asyncio.run(monitor_bitcoin_fees())
