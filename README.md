@@ -1,5 +1,5 @@
 Bitcoin Fee Alert Bot
-This Python script monitors the 1-hour Bitcoin fee using the Mempool API and sends a Telegram notification when the fee drops below a specified threshold (30 sats/vbyte). The bot avoids sending duplicate notifications within a 6-hour interval.
+This Python script monitors the 1-hour Bitcoin fee using the Mempool API and sends a Telegram notification when the fee drops below a specified threshold defined by the user. The bot avoids sending duplicate notifications within a 6-hour interval.
 
 Prerequisites
 Before using this script, make sure you have the following:
@@ -48,9 +48,9 @@ Run the following command to install the required packages:
     python script_name.py
     Replace script_name.py with the actual name of your script file.
 
-The script will start monitoring the 1-hour Bitcoin fee every 60 seconds. It will print the current fee in the console.
+The script will start monitoring the 1-hour Bitcoin fee every 600 seconds(10 minutes) and print the current fee in the console.
 
-If the fee drops below the specified threshold (30 sats/vbyte), the bot will notify your Telegram chat.
+If the fee drops below the specified threshold(set by the user), the bot will notify your Telegram chat.
 
 The bot will avoid sending duplicate notifications within a 6-hour interval.
 
@@ -59,8 +59,8 @@ Press Ctrl + C in the terminal or command prompt to stop the script.
 Customization
 You can customize the script according to your needs:
 
-Adjust the fee threshold by modifying the condition if hourFee < 30 in the monitor_bitcoin_fees() function.
-Change the notification interval by modifying the condition
+Adjust the fee threshold by modifying the condition if hourFee < threshold in the monitor_bitcoin_fees() function.
+Change the notification interval by modifying the condition.
 
 
     (current_time - last_notification_time) >= timedelta(hours=6)
